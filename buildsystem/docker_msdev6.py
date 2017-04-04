@@ -18,6 +18,11 @@ class DockerMsdev6(Builder):
     lib_dirs = []
     full_rebuild = False
 
+    @task('prepare')
+    def prepare(self):
+        """You can override this task in order to make some preparation steps"""
+        pass
+
     @task('collect-projects')
     def collect_projects(self):
         """Walks recursively through the `root_dir` and finds all files
