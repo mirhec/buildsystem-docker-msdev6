@@ -36,13 +36,13 @@ class DockerMsdev6(Builder):
 
     @task('start-docker')
     def start_docker(self):
-        output = self.run(['docker', 'ps', '-aq', '--filter', 'name=backendbuilder'])
+        output = self.run(['docker', 'ps', '-aq', '--filter', 'name=msdevbuilder'])
         if output != b'':
-            cmd = ['docker', 'start', 'backendbuilder']
+            cmd = ['docker', 'start', 'msdevbuilder']
         else:
-            cmd = ['docker', 'run', '--name', 'backendbuilder', '-d']
-            for key, val in self.docker_volumes:
-                cmd.append('%s:%s' % (val, key))
+            cmd = ['docker', 'run', '--name', 'msdevbuilder', '-d']
+            for key in self.docker_volumes:
+                cmd = cmd + ['-v', '%s:%s' % (self.docker_volumes[key], key)]
             cmd = cmd + ['msdev', 'ping', '-t', 'localhost']
         self.run(cmd)
 
@@ -56,7 +56,7 @@ class DockerMsdev6(Builder):
             cmd = ['docker', 'exec',
                    '-e', 'ADDITIONAL_INCLUDES=%s' % ';'.join(self.include_dirs),
                    '-e', 'ADDITIONAL_LIBS=%s' % ';'.join(self.lib_dirs),
-                   'backendbuilder', 'c:\\entrypoint.bat', 'msdev',
+                   'msdevbuilder', 'c:\\entrypoint.bat', 'msdev',
                    os.path.join(folder, dsp_file)
                    .replace(self.docker_volumes['C:\\code'] + '\\', ''),
                    '/MAKE', target, '/REBUILD' if self.full_rebuild else '/BUILD', '/USEENV']
@@ -103,4 +103,4 @@ class DockerMsdev6(Builder):
 
     @task('stop-docker')
     def stop_docker(self):
-        self.run(['docker', 'stop', 'backendbuilder'])
+        self.run(['docker', 'stop', 'msdevbuilder'])
