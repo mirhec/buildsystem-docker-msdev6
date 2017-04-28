@@ -3,11 +3,11 @@
 from distutils.core import setup
 
 setup(name='buildsystem-docker-msdev6',
-      version='1.1',
+      version='1.2',
       description='Msdev6 plugin for buildsystem package.',
       author='Mirko Hecky',
       url='https://github.com/mirhec/buildsystem-docker-msdev6',
-      download_url='https://github.com/mirhec/buildsystem-docker-msdev6/archive/1.1.tar.gz',
+      download_url='https://github.com/mirhec/buildsystem-docker-msdev6/archive/1.2.tar.gz',
       packages=['buildsystem'],
       keywords=['buildsystem', 'build', 'automation', 'docker', 'msdev', 'msdev6', 'vc6']
 )

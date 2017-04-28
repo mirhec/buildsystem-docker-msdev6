@@ -92,10 +92,13 @@ class DockerMsdev6(Builder):
 
         errors = re.search('([0-9]+) Fehler', out)
         warnings = re.search('([0-9]+) Warnung(en)', out)
+        ok = re.search('0 Fehler', out)
 
         num_errors, num_warnings = 0, 0
         if errors is not None:
             num_errors = int(errors.group(1))
+        elif ok is None:
+            num_errors = 1
         if warnings is not None:
             num_warnings = int(warnings.group(1))
 
